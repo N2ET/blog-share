@@ -6,7 +6,7 @@
 
 namespace n2et\typecho;
 
-require_once './Handler.php';
+require_once __DIR__ . './Handler.php';
 use n2et\typecho\Handler as Handler;
 
 class Client extends Handler

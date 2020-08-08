@@ -2,20 +2,21 @@
 
 namespace n2et\typecho;
 
-require_once './Handler.php';
+require_once __DIR__ . './Handler.php';
 use n2et\typecho\Handler as Handler;
 
-require_once './Client.php';
+require_once __DIR__ . './Client.php';
 use n2et\typecho\Client as Client;
 
-require_once './typechoHandlers.php';
+require_once __DIR__ . './typechoHandlers.php';
 
 class Share extends Handler {
     protected $filePath = '';
     protected $config = NULL;
     protected $client = NULL;
     protected $handlersMap = [
-        'newPost' => 'newPost'
+        'newPost' => 'newPost',
+        'newMediaObject' => 'newMediaObject'
     ];
 
     public function __construct($options)
@@ -83,6 +84,14 @@ class Share extends Handler {
         return $data;
     }
 
+    public function getHandlerName ($name) {
+        return $this->handlersMap[$name];
+    }
+
+    public function handlePostAttachments ($postResponse, &$docData) {
+        return NULL;
+    }
+
     public function sharePost ($url) {
         $ret = [
             'success' => 0,
@@ -99,11 +108,20 @@ class Share extends Handler {
         }
 
         $doc = $this->formatSharePostData($data);
-        $rpcRet = $this->client->execute($this->handlersMap['newPost'], $doc);
+
+        $attachmentsResponse = $this->handlePostAttachments($data, $doc);
+        if (!empty($attachmentsResponse)) {
+            $ret['attachments'] = $attachmentsResponse;
+        }
+
+        $rpcRet = $this->client->execute(
+            $this->getHandlerName('newPost'),
+            $doc
+        );
         $postId = NULL;
 
         if ($rpcRet['success']) {
-            $id = (int) $rpcRet['response'];
+            $id = (int) $rpcRet['data'];
             if (is_int($id) && $id > 0) {
                 $postId = $id;
             }
@@ -117,6 +135,7 @@ class Share extends Handler {
         }
 
         $ret['response'] = $rpcRet['response'];
+        $ret['data'] = $postId ? $postId : NULL;
 
         return $ret;
     }
