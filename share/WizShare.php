@@ -76,7 +76,8 @@ class WizShare extends Share {
             'fieldNames' => ['shareFrom'],
             'fieldTypes' => ['str'],
             'fieldValues' => ['wizNote'],
-            'dateCreated' => $docData['created'] / 1000
+            'dateCreated' => $docData['created'] / 1000,
+            'categories' => ['categories']
         ];
 
         return $ret;
