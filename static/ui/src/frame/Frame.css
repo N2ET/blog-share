@@ -1,0 +1,21 @@
+.blog-share_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+}
+
+.blog-share_frame {
+    position: relative;
+
+    width: 400px;
+    border: solid 1px #ddd;
+    border-radius: 4px;
+    box-shadow: 0 0 4px #ddd;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

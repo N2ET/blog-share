@@ -36,9 +36,6 @@ class Client extends Handler
             }
         }
 
-//        if (is_array($options['handlers'])) {
-//
-//        }
     }
 
     public function init () {
@@ -50,10 +47,6 @@ class Client extends Handler
             'Content-Type: text/xml'
         ));
         $this->curl = $curl;
-    }
-
-    public function parseParams () {
-
     }
 
     public function execute ($method, $params) {
@@ -101,62 +94,6 @@ class Client extends Handler
             'response' => $response,
             'data' => $data
         ];
-    }
-//
-//    public function newPost ($data) {
-//        if (empty($data)) {
-//            return;
-//        }
-//
-//        $params = [];
-//
-//        $keys = [
-//            'post_type',
-//            'title',
-//            'tags',
-//            'dateCreated',
-//            'description',
-//            'categories'
-//        ];
-//        foreach ($keys as $key) {
-//            if (!empty($data[$key])) {
-//                $params[$key] = $data[$key];
-//            }
-//        }
-//
-////        if (empty($data['datetime'])) {
-////            $params['post_date'] = date('Ymd\TH:i:s', time());
-////        } else {
-////            $params['post_date'] = $data['post_date'];
-////        }
-//
-//        if (empty($params['dateCreated'])) {
-//            $params['dateCreated'] = date('Ymd\TH:i:s', time());
-//        }
-//
-//        xmlrpc_set_type($params['dateCreated'], 'datetime');
-//
-//        $request = xmlrpc_encode_request('metaWeblog.newPost', [
-//            '',
-//            $this->username,
-//            $this->pwd,
-//            $params,
-//            true
-//        ]);
-//        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $request);
-//        $response = curl_exec($this->curl);
-//
-//        if (curl_errno($this->curl)) {
-//            print curl_errno($this->curl);
-//        } else {
-////            curl_close($this->curl);
-//            print var_dump($response);
-//        }
-//
-//    }
-
-    public function parseResponse () {
-
     }
 
     public function __destruct () {

@@ -128,8 +128,7 @@ class Share extends Handler {
         }
 
         if ($postId) {
-            $rpcRet['success'] = 1;
-            $rpcRet['data'] = $postId;
+            $ret['success'] = 1;
         } else {
             $ret['message'] = 'share failed!';
         }

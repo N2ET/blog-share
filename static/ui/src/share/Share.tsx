@@ -1,122 +1,78 @@
-import React, { useReducer } from 'react';
-// import update from 'immutability-helper';
+import React from 'react';
 
 import { Form, Input, Button, Checkbox, Radio,  Select, DatePicker, Spin } from 'antd';
-
-
-interface ShareFormData {
-    title: string,
-    categories: string[],
-    tags: string[],
-    created: string,
-    status: string
-}
+import { ShareFormData, ShareProp } from '../interface';
 
 const initialFormData : ShareFormData = {
-    title: 'titlexx',
+    title: '',
     categories: [],
     tags: [],
     created: '',
     status: 'publish'
 };
 
-const reducer = (state : ShareFormData, action : { type: string, data: any }) => {
-    const { type, data } = action;
-
-    switch (type) {
-
-
-        default:
-            return Object.assign({}, state, {
-                [type]: data
-            });
-            // return update(state, {
-            //     [type]: data
-            // });
-    }
-
-};
-
-interface ShareProp {
-    onSubmit?: (data: ShareFormData) => any
-}
-
 function Share (props : ShareProp) {
 
-    const [state, dispatch] = useReducer(reducer, initialFormData);
+    const [form] = Form.useForm(props.form);
+
+    const onValuesChange = (values : Partial<ShareFormData>) => {
+
+    };
 
     return (
-        <div className="share-box">
+        <div className='share-box'>
             <Form
-                initialValues={ state }>
+                initialValues={ initialFormData }
+                onValuesChange={ onValuesChange }
+                form={ form }>
                 <Form.Item
-                    label="标题"
-                    name="title">
-                    <Input onChange={ e => {
-                            dispatch({
-                                type: 'title',
-                                data: e.target.value
-                            });
-                        } } />
+                    label='标题'
+                    name='title'>
+                    <Input/>
                 </Form.Item>
 
                 <Form.Item
-                    label="分类"
-                    name="categories">
+                    label='分类'
+                    name='categories'>
                     <Select
-                        mode="tags"
-                        placeholder="选择/输入分类"
-                        onChange={ value => {
-                            dispatch({
-                                type: 'categories',
-                                data: value
-                            });
-                        } }>
+                        mode='tags'
+                        placeholder='选择/输入分类'>
                             
-                        </Select>
+                    </Select>
                 </Form.Item> 
 
                 <Form.Item
-                    label="标签"
-                    name="tags">
+                    label='标签'
+                    name='tags'>
                     <Select
-                        mode="tags"
-                        placeholder="选择/输入标签"
-                        onChange={ value => {
-                            dispatch({
-                                type: 'categories',
-                                data: value
-                            });
-                        } }> 
+                        mode='tags'
+                        placeholder='选择/输入标签'>
 
-                        </Select>
+                    </Select>
                 </Form.Item>
 
                 {/* <Form.Item
-                    label="创建时间"
-                    name="created">
+                    label='创建时间'
+                    name='created'>
                          <DatePicker showTime />
                     </Form.Item> */}
 
                 <Form.Item
-                    label="发布状态"
-                    name="status">
-                    <Radio.Group 
-                        onChange={ value => {
-                            dispatch({
-                                type: 'status',
-                                data: value
-                            });
-                        } }>
-                        <Radio value="publish">发布</Radio>
-                        <Radio value="waiting">审核</Radio>
+                    label='发布状态'
+                    name='status'>
+                    <Radio.Group>
+                        <Radio value='publish'>发布</Radio>
+                        <Radio value='waiting'>待审核</Radio>
+                        <Radio value='private'>自己可见</Radio>
                     </Radio.Group>
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="button" onClick={ function () {
+                    <Button type='primary' htmlType='button' onClick={ function () {
                         if (props.onSubmit) {
-                            props.onSubmit(state);
+                            props.onSubmit(
+                                form.getFieldsValue() as ShareFormData
+                            );
                         }
                     } }>
                         分享

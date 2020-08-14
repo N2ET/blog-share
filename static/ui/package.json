@@ -15,6 +15,7 @@
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "antd": "^4.5.2",
+    "axios": "^0.19.2",
     "babel-eslint": "10.1.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "8.1.0",
@@ -22,6 +23,8 @@
     "babel-preset-react-app": "^9.1.2",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.2",
     "css-loader": "3.4.2",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -37,6 +40,7 @@
     "file-loader": "4.3.0",
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "4.0.0-beta.11",
+    "http-proxy-middleware": "^1.0.5",
     "identity-obj-proxy": "3.0.0",
     "immutability-helper": "^3.1.1",
     "jest": "24.9.0",
@@ -73,7 +77,12 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "build:main": "cross-env target=main node scripts/build.js",
+    "build:loader": "cross-env target=loader node scripts/build.js",
+    "start:main": "cross-env target=main port=3001 node scripts/start.js",
+    "start:loader": "cross-env target=loader port=3000 node scripts/start.js",
+    "start:loader-all": "concurrently \"npm run start:main\" \"npm run start:loader\""
   },
   "eslintConfig": {
     "extends": "react-app"

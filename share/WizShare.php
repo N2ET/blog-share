@@ -43,32 +43,6 @@ class WizShare extends Share {
         $docData = $data['doc'];
         $doc = $docData['html'];
 
-//        // 上传文件中的图片等资源
-//        $attachmentResponse = $this->newPostAttachments(NULL, $postResponse);
-//
-//        if ($attachmentResponse['success'] && count($attachmentResponse['handled'])) {
-//            $res = $attachmentResponse['handled'];
-//            $patterns = [];
-//            $replacements = [];
-//            foreach ($res as $key => $value) {
-//                $patternItem = $value['oriFile'];
-//
-//                $patternItem = preg_replace('/\//', '\/', $patternItem);
-//                $patternItem = preg_replace('/\./', '\.', $patternItem);
-//                $patternItem = "/$patternItem/";
-//
-//                $patterns[] = $patternItem;
-//                $replacements[] = $value['targetUrl'];
-//            }
-//
-//            $replaceCount = 0;
-//
-//            // 替换资源路径，让资源可以正常显示
-//            $doc = preg_replace($patterns, $replacements, $doc, -1, $replaceCount);
-//
-//        }
-
-
         $ret = [
             'title' => $docData['title'],
             'post_type' => 'post',
@@ -77,8 +51,14 @@ class WizShare extends Share {
             'fieldTypes' => ['str'],
             'fieldValues' => ['wizNote'],
             'dateCreated' => $docData['created'] / 1000,
-            'categories' => ['categories']
+            'categories' => ['']
         ];
+
+        $formattedData = $this->execHandlers('formatSharePostData', $ret);
+
+        if (!empty($formattedData)) {
+            $ret = $formattedData;
+        }
 
         return $ret;
     }
