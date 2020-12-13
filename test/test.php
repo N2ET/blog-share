@@ -17,6 +17,9 @@ $apiUrl = 'http://212.64.4.237:8888/share/api/shares/3fq2Mg1w4x7G2vMgYz38eGWS3DT
 //$share->sharePost('http://212.64.4.237:8888/wapp/pages/view/share/s/3fq2Mg1w4x7G2vMgYz38eGWS0Yip_L38Hkwu2Ubqb327t8oP');
 $apiUrl = 'http://212.64.4.237:8888/share/api/shares/3fq2Mg1w4x7G2vMgYz38eGWS2MSVJN0brkAZ2T6BTY3oxXH2?clientType=web&clientVersion=4.0&lang=zh-cn';
 //$ret = $share->sharePost($apiUrl);
+
+//$url = 'http://192.168.211.130:8888/wapp/pages/view/share/s/3fq2Mg1w4x7G2vMgYz38eGWS2QspYS2zSAES22IsLg1sSxNy';
+
 $ret = $share->sharePost($url);
 
 

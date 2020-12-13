@@ -51,7 +51,7 @@ class WizShare extends Share {
             'fieldTypes' => ['str'],
             'fieldValues' => ['wizNote'],
             'dateCreated' => $docData['created'] / 1000,
-            'categories' => ['']
+            'categories' => []
         ];
 
         $formattedData = $this->execHandlers('formatSharePostData', $ret);

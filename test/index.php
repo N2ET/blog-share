@@ -1,5 +1,5 @@
 <?php
-    require_once '../share/WizShare.php';
+    require_once __DIR__ . '../share/WizShare.php';
     use n2et\typecho\WizShare as WizShare;
 
     $configFilePath = __DIR__ . '/config.json';
