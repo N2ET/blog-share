@@ -2,13 +2,13 @@
 
 namespace n2et\typecho;
 
-require_once __DIR__ . './Handler.php';
+require_once __DIR__ . '/Handler.php';
 use n2et\typecho\Handler as Handler;
 
-require_once __DIR__ . './Client.php';
+require_once __DIR__ . '/Client.php';
 use n2et\typecho\Client as Client;
 
-require_once __DIR__ . './typechoHandlers.php';
+require_once __DIR__ . '/typechoHandlers.php';
 
 class Share extends Handler {
     protected $filePath = '';

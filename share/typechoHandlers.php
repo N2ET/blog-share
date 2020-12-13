@@ -2,7 +2,7 @@
 
 namespace n2et\typecho;
 
-require_once __DIR__ . './Handler.php';
+require_once __DIR__ . '/Handler.php';
 use n2et\typecho\Handler as Handler;
 
 Handler::addSharedHandler('metaWeblog.newPost', function ($method, $args) {
