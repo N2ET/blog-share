@@ -2,7 +2,7 @@
 
 namespace n2et\typecho;
 
-require_once __DIR__ . './Share.php';
+require_once __DIR__ . '/Share.php';
 
 use n2et\typecho\Share as Share;
 
