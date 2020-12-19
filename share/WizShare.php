@@ -50,7 +50,9 @@ class WizShare extends Share {
             'fieldNames' => ['shareFrom'],
             'fieldTypes' => ['str'],
             'fieldValues' => ['wizNote'],
-            'dateCreated' => $docData['created'] / 1000,
+//            直接使用时间戳会导致异常，XmlRpc.php中接受到的格式化的数据类型是int
+//            'dateCreated' => $docData['created'] / 1000,
+            'dateCreated' => date('Ymd H:i:s', $docData['created'] / 1000),
             'categories' => []
         ];
 

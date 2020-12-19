@@ -9,6 +9,8 @@ Handler::addSharedHandler('metaWeblog.newPost', function ($method, $args) {
     $meta = $args['meta'];
     $data = $args['data'];
 
+    xmlrpc_set_type($data['dateCreated'], 'datetime');
+
     $fiels = xmlrpc_encode_request($method, [
         $meta['blogId'],
         $meta['username'],
@@ -26,6 +28,8 @@ Handler::addSharedHandler('metaWeblog.newMediaObject', function ($method, $args)
 
     xmlrpc_set_type($data['bits'], 'base64');
 
+    $data['bytes'] = $data['bits'];
+    xmlrpc_set_type($data['bytes'], 'base64');
     $fiels = xmlrpc_encode_request($method, [
         $meta['blogId'],
         $meta['username'],
