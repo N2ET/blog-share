@@ -10,6 +10,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  */
 class WizNote_Plugin implements Typecho_Plugin_Interface
 {
+
+    public static $shareFromKey = 'WizNote';
+
     /**
      * 激活插件方法,如果激活失败,直接抛出异常
      *
@@ -20,7 +23,7 @@ class WizNote_Plugin implements Typecho_Plugin_Interface
     public static function activate()
     {
         // file: var/Widget/Abstract/Contents.php
-        Typecho_Plugin::factory('Widget_Abstract_Contents')->content = array('WizNote_plugin', 'formatContent');
+        Typecho_Plugin::factory('Widget_Abstract_Contents')->content = array('WizNote_Plugin', 'formatContent');
     }
 
     /**
@@ -67,6 +70,11 @@ class WizNote_Plugin implements Typecho_Plugin_Interface
      */
     public static function formatContent($text, $post)
     {
+        $shareFromKey = $post->fields->shareFrom;
+        if (empty($shareFromKey) || $shareFromKey != self::$shareFromKey) {
+            return $text;
+        }
+
         $id = $post->cid;
         $ret = <<<EOF
     <iframe id="wiznote-post_$id" style="border: none; width: 100%;">

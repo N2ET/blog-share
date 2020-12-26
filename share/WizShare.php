@@ -8,6 +8,8 @@ use n2et\typecho\Share as Share;
 
 class WizShare extends Share {
 
+    public $shareFromKey = 'WizNote';
+
     public function formatGetPostDataUrl ($url) {
         return $url;
     }
@@ -47,9 +49,9 @@ class WizShare extends Share {
             'title' => $docData['title'],
             'post_type' => 'post',
             'description' => $doc,
-            'fieldNames' => ['shareFrom'],
-            'fieldTypes' => ['str'],
-            'fieldValues' => ['wizNote'],
+            'fieldNames' => ['shareFrom', 'shareId', 'shareUrl'],
+            'fieldTypes' => ['str', 'str', 'str'],
+            'fieldValues' => [$this->shareFromKey, $data['shareId'], $data['shareUrl']],
 //            直接使用时间戳会导致异常，XmlRpc.php中接受到的格式化的数据类型是int
 //            'dateCreated' => $docData['created'] / 1000,
             'dateCreated' => date('Ymd H:i:s', $docData['created'] / 1000),
@@ -238,6 +240,9 @@ class WizShare extends Share {
                 $doc = preg_replace($patterns, $replacements, $doc, -1, $replaceCount);
                 $docData['description'] = $doc;
             }
+
+            // 替换wiz://协议，主要是插入到文章中附件
+            $docData['description'] = preg_replace('/href="wiz:\/\/[^"]*"/', '', $doc);
 
             return $attachmentResponse;
         }
