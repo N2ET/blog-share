@@ -45,18 +45,25 @@ class WizShare extends Share {
         $docData = $data['doc'];
         $doc = $docData['html'];
 
+        $shareId = $data['shareId'];
+
         $ret = [
             'title' => $docData['title'],
             'post_type' => 'post',
             'description' => $doc,
             'fieldNames' => ['shareFrom', 'shareId', 'shareUrl'],
             'fieldTypes' => ['str', 'str', 'str'],
-            'fieldValues' => [$this->shareFromKey, $data['shareId'], $data['shareUrl']],
+            'fieldValues' => [$this->shareFromKey, $shareId, $data['shareUrl']],
 //            直接使用时间戳会导致异常，XmlRpc.php中接受到的格式化的数据类型是int
 //            'dateCreated' => $docData['created'] / 1000,
             'dateCreated' => date('Ymd H:i:s', $docData['created'] / 1000),
             'categories' => [$docData['category']]
         ];
+
+        $postInfo = $this->getPostIdByShareId($shareId);
+        if ($postInfo['success'] && $postInfo['data']) {
+            $ret['postId'] = $postInfo['data'];
+        }
 
         $formattedData = $this->execHandlers('formatSharePostData', $ret);
 
@@ -259,6 +266,27 @@ class WizShare extends Share {
         $url = preg_replace('/\?clientType=.+$/', '', $url);
         $url = $url . '?clientType=n2etBlogShare&clientVersion=1.0&lang=zh-cn';
         return $url;
+    }
+
+    public function getPostIdByShareId ($shareId) {
+        $ret = [
+            'success' => 0,
+            'message' => '',
+            'response' => NULL
+        ];
+
+        $rpcRet = $this->client->execute('getPostIdByShareId', $shareId);
+
+        if (!$rpcRet['success'] || empty($rpcRet['data'])) {
+            $ret['message'] = 'getPostId failed!';
+            $ret['response'] = $rpcRet['response'];
+            return $ret;
+        }
+
+        $ret['success'] = 1;
+        $ret['data'] = $rpcRet['data'];
+
+        return $ret;
     }
 
 }
