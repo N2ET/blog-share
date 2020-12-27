@@ -15,14 +15,21 @@
         fragment.innerHTML = html;
 
         fragment.querySelector('#share-to-wiznote').addEventListener('click', function () {
+            var statusEl = document.querySelector('#share-to-wiznote-status');
+            statusEl.style.display = '';
+
             doShare(config.serverUrl, {
                 postUrl: config.postUrl
             }).then(function (res) {
                 res.json().then(function (data) {
-                    alert(data);
+                    alert(JSON.stringify(data, null, 4));
                 }).catch(function (data) {
-                    alert(data);
+                    alert(JSON.stringify(data, null, 4));
                 });
+            }).catch(function (data) {
+                alert('share failed! \n' + JSON.stringify(data, null, 4));
+            }).finally(function () {
+                statusEl.style.display = 'none';
             });
         });
 
@@ -58,7 +65,7 @@
                 <div class="jss226 jss231">
                     <button id="share-to-wiznote" class="MuiButtonBase-root MuiButton-root jss232 jss234 jss252 jss172 MuiButton-contained" type="button">
                         <span class="MuiButton-label">
-                            <span>分享到 Typecho</span>
+                            <span>分享到 Typecho<span id="share-to-wiznote-status" style="display: none;">(ing...)</span></span>
                         </span>
                     </button>
                 </div>
