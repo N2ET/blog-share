@@ -26,7 +26,7 @@ function imagecopymergeAlpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $
 
 class N2etWaterMark
 {
-    const defaultConfig = [
+    protected static $defaultConfig = [
         'markPosition' => 9,
 
 //        'markFilePath' => '',
@@ -61,7 +61,7 @@ class N2etWaterMark
     public function __construct($config = [])
     {
 
-        $this->config = array_merge(self::defaultConfig, $config);
+        $this->config = array_merge(self::$defaultConfig, $config);
 
         $this->init();
     }
@@ -213,12 +213,13 @@ class N2etWaterMark
         $ret['width'] = $info[0];
         $ret['height'] = $info[1];
 
-        $ret['type'] = [
+        $ext = [
             1 => 'gif',
             2 => 'jpeg',
             3 => 'png',
             6 => 'bmp'
-        ][$info[2]];
+        ];
+        $ret['type'] = $ext[$info[2]];
 
         return $ret;
     }

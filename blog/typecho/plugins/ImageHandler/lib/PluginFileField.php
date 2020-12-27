@@ -6,8 +6,9 @@ class Plugin_File_Field extends Typecho_Widget_Helper_Form_Element
 
     /**
      * 默认值
+     * 5.6之前的版本array不能为const
      */
-    const DEFAULT_VALUE = array(
+    public static $DEFAULT_VALUE = array(
         'url' => '',
         'cid' => ''
     );
@@ -15,7 +16,7 @@ class Plugin_File_Field extends Typecho_Widget_Helper_Form_Element
     /**
      * 图片展示的默认样式
      */
-    const DEFAULT_STYLE = array(
+    public static $DEFAULT_STYLE = array(
         'width' => '100px'
     );
 
@@ -54,7 +55,7 @@ class Plugin_File_Field extends Typecho_Widget_Helper_Form_Element
     public function input($name = NULL, array $options = NULL)
     {
 
-        $style = array_merge(self::DEFAULT_STYLE, $options && array_key_exists('style', $options) ? $options['style'] : []);
+        $style = array_merge(self::$DEFAULT_STYLE, $options && array_key_exists('style', $options) ? $options['style'] : []);
         $id =  $name . '-0-' . self::$uniqueId;
         $wrap = new Typecho_Widget_Helper_Layout('div');
         $img = new Typecho_Widget_Helper_Layout('img', array(
@@ -104,7 +105,7 @@ class Plugin_File_Field extends Typecho_Widget_Helper_Form_Element
         if (empty($value)) {
             return;
         }
-        $value = array_merge(self::DEFAULT_VALUE, $value);
+        $value = array_merge(self::$DEFAULT_VALUE, $value);
         $this->img->setAttribute('src', htmlspecialchars($value['url']));
         $this->idField->setAttribute('value', htmlspecialchars($value['cid']));
         $this->urlField->setAttribute('value', htmlspecialchars($value['url']));
