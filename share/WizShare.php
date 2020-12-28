@@ -46,7 +46,7 @@ class WizShare extends Share {
         $doc = $docData['html'];
 
         $shareId = $data['shareId'];
-        $categories = preg_split('', $docData['category'], null, PREG_SPLIT_NO_EMPTY);
+        $categories = preg_split('/\//', $docData['category'], null, PREG_SPLIT_NO_EMPTY);
         // 第一级目录不当成分类
         $categories = array_slice($categories, 1);
 
