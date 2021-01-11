@@ -37,10 +37,27 @@ class CopyrightInfo_Plugin implements Typecho_Plugin_Interface
     public static function getTemplate ()
     {
         $template = <<<EOF
-<div>
-    <div>转载请注明文章来源</div>
-    </div>本文地址 \$postLink</div>    
+<div class=\"copyright-plugin\">
+    <div class=\"copyright-plugin_desc\">转载请注明文章来源</div>
+    <div class=\"copyright-plugin_link\">本文地址：\$postLink</div>    
 </div>
+<style type=\"text/css\">
+    .copyright-plugin, .copyright-plugin * {
+        margin: initial!important;
+        line-height: 1.2!important;
+    }
+    
+    .copyright-plugin {
+        font-size: 14px!important;
+        margin-top: 30px!important;
+    }
+    .copyright-plugin_desc {
+        
+    }
+    .copyright-plugin_link {
+    
+    }
+</style>
 EOF;
 
         return $template;
@@ -51,9 +68,9 @@ EOF;
 
         $ret = '';
 
-        $postLink = $post['link'];
+        $postLink = $post->permalink;
 
-        eval('$ret = ' . $template);
+        eval('$ret = "' . $template . '";');
 
         return $ret;
     }
@@ -68,8 +85,8 @@ EOF;
     public static function config(Typecho_Widget_Helper_Form $form)
     {
 
-        $templateField = new Typecho_Widget_Helper_Form_Element_Textarea('template', NULL, 9,
-            self::getTemplate());
+        $templateField = new Typecho_Widget_Helper_Form_Element_Textarea('template', NULL, self::getTemplate(),
+            _('版权信息模板'));
         $form->addInput($templateField);
     }
 
@@ -87,16 +104,22 @@ EOF;
      *
      * @param $text string
      * @param $post object
+     * @param $lastText string
      * @return string
      */
-    public static function addCopyrightInfo($text, $post)
+    public static function addCopyrightInfo($text, $post, $lastText)
     {
 
         $config = Typecho_Widget::widget('Widget_Options')->plugin('CopyrightInfo');
-        $template = $config['template'];
+        $template = $config->template;
 
         $copyrightText = self::execTemplate($template, $post);
-        $text .= $copyrightText;
+
+        if (!$lastText) {
+            $lastText = $text;
+        }
+
+        $text = $lastText . $copyrightText;
 
         return $text;
     }

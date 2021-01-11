@@ -68,20 +68,25 @@ class WizNote_Plugin implements Typecho_Plugin_Interface
      * @access public
      * @return string
      */
-    public static function formatContent($text, $post)
+    public static function formatContent($text, $post, $lastText)
     {
+
+        if (!$lastText) {
+            $lastText = $text;
+        }
+
         $shareFromKey = $post->fields->shareFrom;
         if (empty($shareFromKey) || $shareFromKey != self::$shareFromKey) {
-            return $text;
+            return $lastText;
         }
 
         $id = $post->cid;
         $ret = <<<EOF
     <iframe id="wiznote-post_$id" style="border: none; width: 100%;">
-        $text
+        $lastText
     </iframe>
     <script type="template" style="display: none" id="wiznote-post_$id-text">
-        $text
+        $lastText
     </script>
     <script>
         (function () {
