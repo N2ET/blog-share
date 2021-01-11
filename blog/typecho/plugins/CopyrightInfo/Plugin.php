@@ -43,10 +43,12 @@ class CopyrightInfo_Plugin implements Typecho_Plugin_Interface
 </div>
 EOF;
 
+        return $template;
     }
 
     public static function execTemplate ($template, $post)
     {
+
         $ret = '';
 
         $postLink = $post['link'];
@@ -66,7 +68,7 @@ EOF;
     public static function config(Typecho_Widget_Helper_Form $form)
     {
 
-        $templateField = new Typecho_Widget_Helper_Form_Element_Textarea('templateField', NULL, 9,
+        $templateField = new Typecho_Widget_Helper_Form_Element_Textarea('template', NULL, 9,
             self::getTemplate());
         $form->addInput($templateField);
     }
@@ -85,11 +87,16 @@ EOF;
      *
      * @param $text string
      * @param $post object
-     * @return array
-     * @throws Typecho_Exception
+     * @return string
      */
     public static function addCopyrightInfo($text, $post)
     {
+
+        $config = Typecho_Widget::widget('Widget_Options')->plugin('CopyrightInfo');
+        $template = $config['template'];
+
+        $copyrightText = self::execTemplate($template, $post);
+        $text .= $copyrightText;
 
         return $text;
     }
